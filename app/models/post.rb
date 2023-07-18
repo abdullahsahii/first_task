@@ -1,7 +1,8 @@
 class Post < ApplicationRecord
-    # belongs_to :user
+    belongs_to :user
     validates :title, presence: true
     validates :content, presence: true
+    validates :content, length: { minimum: 10}
     scope :published_posts, -> { where(published: true) }
     delegate :email, to: :user, prefix: true
     before_save :publishh
