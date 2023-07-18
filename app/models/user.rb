@@ -11,5 +11,5 @@ class User < ApplicationRecord
             errors.add(:reenter_password, "must match the password")
         end
     end
-    has_many :posts, dependent: :destroy
+    # has_many :posts, dependent: :destroy
 end
