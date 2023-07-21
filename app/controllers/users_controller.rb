@@ -23,7 +23,10 @@ class UsersController < ApplicationController
         @user = User.new(user_params)
         if (@user.password == @user.reenter_password)
            if @user.save
-                redirect_to root_path
+               two_factor_mailer.generate_otp
+               two_factor_mailer.send_otp
+               render json: { success: true, message: "OTP sent to your email" }
+
             else
                 render :new
             end
@@ -34,7 +37,7 @@ class UsersController < ApplicationController
 
     private
     def user_params
-        params.require(:user).permit(:first_name, :last_name, :email, :password, :reenter_password)
+        params.require(:user).permit(:username, :email, :password, :reenter_password)
     end
     def login_params
         params.require(:login).permit(:email, :password)
